@@ -3,8 +3,7 @@ const Reviews = require('./model');
 
 for (var i = 0; i < 100; i++) {
 
-  var numReviews = faker.random.number(10);
-  console.log(numReviews);
+  var numReviews = faker.random.number({ min: 2, max: 20 });
 
   var reviews = [];
 

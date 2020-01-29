@@ -1,10 +1,10 @@
 import React from 'react';
 import Review from './Review';
 
-const ReviewsList = () => (
+const ReviewsList = (props) => (
   <div>
   <div>I a ReviewList</div>
-  <Review />
+  <Review review={props.reviews[1]}/>
   <Review />
   <Review />
   </div>
