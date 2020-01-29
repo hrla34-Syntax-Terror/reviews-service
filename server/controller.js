@@ -12,14 +12,14 @@ const controller = {
       .catch((err) => res.status(400).send(err))
     },
   addReview: (req, res) => { 
-      db.addReview(req.params.productID, req.body.review)
-      .then(() => res.status(201).send('review added '))
-      .catch((err) => res.status(401).send(err))
+      // db.addReview(req.params.productID, req.body.review)
+      // .then(() => res.status(201).send('review added '))
+      // .catch((err) => res.status(401).send(err))
   },
   addHelpful: (req, res) => {
-    db.addHelpful(req.params, req.body._id, req.body.helpful)
-      .then(() => { res.status(202).send('helpcount updated ')})
-      .catch((err) => res.status(402).send(err))
+    // db.addHelpful(req.params, req.body)
+    //   .then(() => { res.status(202).send('helpcount updated ')})
+    //   .catch((err) => res.status(402).send(err))
    },
   delete: (req, res) => { 
     db.delete(req.params)
