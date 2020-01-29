@@ -1,17 +1,27 @@
 import React from 'react';
 import Review from './Review';
 
-const ReviewsList = (props) => {
+class ReviewsList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
 
-  return (
-    <div>
-      {props.currentProductReviews.reviews.map((review, index) => {
+    }
+  }
+
+
+  render() {
+    
+    return (
+      <div>
+      {this.props.currentProductReviews.reviews.map((review, index) => {
         return (
           <Review review={review} key={index} />
-        )
-      })}
+          )
+        })}
     </div>
   )
 }
-
+}
+ 
 export default ReviewsList

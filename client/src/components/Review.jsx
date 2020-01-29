@@ -13,6 +13,7 @@ const Review = (props) => {
       <div>Recommend: {props.review.recommended.toString()}</div>
       <div>Helpful: {props.review.helpful.yes}</div>
       <div>Nope: {props.review.helpful.no}</div>
+      <br />
     </div>
   )
 }
