@@ -8,7 +8,9 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      reviews: []
+      reviews: [],
+      currentProductReviews: {},
+      reviewsLoaded: false
     };
 
     this.getAllReviews = this.getAllReviews.bind(this);
@@ -23,18 +25,27 @@ class App extends React.Component {
       .then(reviews => this.setState({
         reviews: reviews.data
       }))
+      .then(() => {
+        this.setState({
+          currentProductReviews: this.state.reviews[0],
+          reviewsLoaded: true
+        });
+
+      })
       .catch(err => console.error(err))
-      .then(() => console.log(this.state.reviews))
-      .catch(err => console.error(err));
   }
-
-
 
   render() {
     return (
       <div>
-      <div>Hello this is App</div>
-      <ReviewsList reviews={this.state.reviews}/>
+        <div>Hello this is App</div>
+        {this.state.reviewsLoaded ? (
+          <ReviewsList
+            currentProductReviews={this.state.currentProductReviews}
+          />
+        ) : (
+            <div> no reviews yet</div>
+          )}
       </div>
     )
   }
