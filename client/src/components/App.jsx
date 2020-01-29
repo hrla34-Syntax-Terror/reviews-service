@@ -38,7 +38,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <div>Hello this is App</div>
+        Reviews
         {this.state.reviewsLoaded ? (
           <ReviewsList
             currentProductReviews={this.state.currentProductReviews}

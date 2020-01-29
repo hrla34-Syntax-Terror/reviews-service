@@ -19,9 +19,4 @@ var reviewsSchema = new mongoose.Schema({
 
 var Reviews = mongoose.model('Reviews', reviewsSchema);
 
-// Grocery.create({
-//     name: "Bread",
-//     quantity: 2
-// });
-
 module.exports = Reviews;
