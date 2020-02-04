@@ -3,17 +3,24 @@ import moment from 'moment';
 
 const Review = (props) => {
   
+  var stars = ''
+  for(var i =0; i < props.review.stars; i++) {
+    stars += '★'
+  }
+  
   return (
-    <div>
-      <div>Name: {props.review.username}</div>
-      <div>{props.review.title}</div>
-      <div>{props.review.stars}/5 stars</div>
-      <div>{moment(props.review.date).fromNow()}</div>
-      <div>{props.review.reviewText}</div>
-      <div>Recommend: {props.review.recommended.toString()}</div>
-      <div>Helpful: {props.review.helpful.yes}</div>
-      <div>Nope: {props.review.helpful.no}</div>
-      <br />
+    <div className="jh-review-box">
+      <div className="jh-name-box">
+        
+      <span className="jh-stars-box">{stars}</span>&nbsp;
+      <span>{props.review.username}</span>&nbsp; 
+      <span>·</span>&nbsp; 
+      <span className="jh-time-box">{moment(props.review.date).fromNow()}</span></div>
+      <div className="jh-title-box">{props.review.title}</div>
+      <div className="jh-review-text-box">{props.review.reviewText}</div>
+      <div className="jh-recommend-box">Recommend: {props.review.recommended.toString()}</div>
+      <div className="jh-helpful-yes-box">Helpful: {props.review.helpful.yes}</div>
+      <div className="jh-helpful-no-box">Nope: {props.review.helpful.no}</div>
     </div>
   )
 }

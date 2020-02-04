@@ -14,9 +14,9 @@ class ReviewsList extends React.Component {
     
     return (
       <div>
-      {this.props.currentProductReviews.reviews.map((review, index) => {
+      {this.props.currentProductReviews.map((review, index) => {
         return (
-          <Review review={review} key={index} />
+          <Review review={review} key={index}  className="jh-review-container"/>
           )
         })}
     </div>
