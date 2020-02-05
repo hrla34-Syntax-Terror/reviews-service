@@ -10,8 +10,10 @@ class ReviewsApp extends React.Component {
     this.state = {
       reviews: [],
       currentProductReviews: [],
+      filteredReviews: [],
       displayedReviews: [],
       displayStartIndex: 0,
+      displayEndIndex: 0,
       reviewsLoaded: false,
       totalReviews: 0,
       avgReview: 0,
@@ -20,23 +22,38 @@ class ReviewsApp extends React.Component {
     };
 
     this.getAllReviews = this.getAllReviews.bind(this);
-    this.changePageReviews = this.changePageReviews.bind(this);
+    this.showMoreReviews = this.showMoreReviews.bind(this);
   }
 
   componentDidMount() {
     this.getAllReviews();
 
   }
+
+  filterByStars() {
+    // filter currentProductReviews
+
+  }
+
   showWriteReview() {
 
   }
 
-  changePageReviews() {
-    var nextStartIdx = this.state.displayStartIndex + 8;
-    var nextEndIdx = nextStartIdx + 8;
-    var displayedReviews = this.state.currentProductReviews.slice(nextStartIdx, nextEndIdx);
-    this.setState({ displayedReviews });
+  showMoreReviews() {
+    var totalReviews = this.state.totalReviews;
+    var displayEndIndex = this.state.displayEndIndex;
+
+    if (displayEndIndex + 30 > totalReviews) {
+      displayEndIndex = totalReviews;
+    } else {
+      displayEndIndex += 30;
+    }
+
+    var displayedReviews = this.state.filteredReviews.slice(0, displayEndIndex - 1);
+
+    this.setState({ displayedReviews, displayEndIndex});
   }
+  
 
   getAllReviews() {
     axios.get('/api')
@@ -56,13 +73,19 @@ class ReviewsApp extends React.Component {
       .then(() => {
         var totalReviews = this.state.currentProductReviews.length;
         var scoreArr = this.state.scoreArr.slice();
-        var displayedReviews = this.state.currentProductReviews.slice(0, 8);
+        var filteredReviews = this.state.currentProductReviews.slice();
+        var displayedReviews = filteredReviews.slice(0, 8);
+        if (totalReviews < 8) {
+          var displayEndIndex = totalReviews;
+        } else {
+          var displayEndIndex = 8
+        }
         var avgReview = Math.round(((_.reduce(this.state.currentProductReviews, (sum, review) => {
           scoreArr[review.stars]++;
           return sum + review.stars
         }, 0)) / totalReviews) * 10) / 10;
         var avgReviewPercent = avgReview * 20;
-        this.setState({ totalReviews, avgReview, scoreArr, displayedReviews, avgReviewPercent });
+        this.setState({ totalReviews, avgReview, scoreArr, displayedReviews, avgReviewPercent, filteredReviews, displayEndIndex });
       })
       .catch(err => console.error(err))
   }
@@ -99,7 +122,7 @@ class ReviewsApp extends React.Component {
                       }
                     })}
                 </div>
-                <div className="jh-totalreviews-box">{this.state.displayStartIndex + 1}-{this.state.displayStartIndex + 8} of {this.state.totalReviews} Reviews</div>
+                <div className="jh-totalreviews-box">{this.state.displayStartIndex + 1}-{this.state.displayEndIndex} of {this.state.totalReviews} Reviews</div>
               </div>
               <div className="jh-avg-box">
                 <div className="jh-avg-box-label">Average Customer Ratings</div>
@@ -112,11 +135,15 @@ class ReviewsApp extends React.Component {
                   <div className="jh-avg-stars-num">{this.state.avgReview}</div>
                 </div>
               </div>
+              <div className="jh-star-filter-box">
+
+              </div>
             </div>
             <div id='jh-write-review'><a href='jh-write-review'></a></div>
             <ReviewsList
               currentProductReviews={this.state.displayedReviews}
             />
+            <div className="jh-show-more"><button onClick={this.showMoreReviews}>Load More</button></div>
           </div>
         ) : (
             <div> no reviews yet</div>
