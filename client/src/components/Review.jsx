@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 const Review = (props) => {
-  
+
   var stars = ''
   for(var i =0; i < props.review.stars; i++) {
     stars += '★'
@@ -13,7 +13,7 @@ const Review = (props) => {
       <div className="jh-name-box">
         
       <span className="jh-stars-box">{stars}</span>&nbsp;
-      <span>{props.review.username}</span>&nbsp; 
+      <span className="jh-name-label">{props.review.username}</span>&nbsp; 
       <span>·</span>&nbsp; 
       <span className="jh-time-box">{moment(props.review.date).fromNow()}</span></div>
       <div className="jh-title-box">{props.review.title}</div>

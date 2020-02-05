@@ -79,11 +79,26 @@ class ReviewsApp extends React.Component {
               <div className="jh-histogram">
                 <div className="jh-rating-snapshot-label">Rating Snapshot</div>
                 <div className="jh-rating-snapshot-body-text">Select a row below to filter reviews</div>
-                <div className="jh-onestar-box">1 ★ {100 * this.state.scoreArr[1] / this.state.totalReviews}% {this.state.scoreArr[1]}</div>
-                <div className="jh-twostar-box">2 ★ {100 * this.state.scoreArr[2] / this.state.totalReviews}% {this.state.scoreArr[2]}</div>
-                <div className="jh-threestar-box">3 ★ {100 * this.state.scoreArr[3] / this.state.totalReviews}% {this.state.scoreArr[3]}</div>
-                <div className="jh-fourstar-box">4 ★ {100 * this.state.scoreArr[4] / this.state.totalReviews}% {this.state.scoreArr[4]}</div>
-                <div className="jh-fivestar-box">5 ★ {100 * this.state.scoreArr[5] / this.state.totalReviews}% {this.state.scoreArr[5]}</div>
+                <div className="jh-graphs-box">
+                  {
+                    this.state.scoreArr.map((total, index) => {
+                      if (index === 0) {
+                        return null
+                      } else {
+
+                        return (
+                          <div className="jh-bar-graph-box" key={index}>
+                            <div className="jh-bar-graph-label">{index} ★ </div>
+                            <div className="jh-bar-graph-container">
+                              <div className="jh-bar-graph-empty"></div>
+                              <div className="jh-bar-graph-fill" style={{ width: 100 * (total / this.state.totalReviews) + '%' }}></div>
+                            </div>
+                            <div className="jh-bar-graph-num">{total}</div>
+                          </div>
+                        )
+                      }
+                    })}
+                </div>
                 <div className="jh-totalreviews-box">{this.state.displayStartIndex + 1}-{this.state.displayStartIndex + 8} of {this.state.totalReviews} Reviews</div>
               </div>
               <div className="jh-avg-box">
@@ -91,14 +106,14 @@ class ReviewsApp extends React.Component {
                 <div className="jh-avg-stars-row">
                   <div className="jh-avg-box-overall">Overall</div>
                   <div className="jh-avg-stars-box">
-                    <div className="jh-avg-stars-blank">★★★★★</div>
-                    <div className="jh-avg-stars-fill" style={{ width: this.state.avgReviewPercent + '%' }}>★★★★★</div>
+                    <span className="jh-avg-stars-blank">★★★★★</span>
+                    <span className="jh-avg-stars-fill" style={{ width: this.state.avgReviewPercent + '%' }}>★★★★★</span>
                   </div>
                   <div className="jh-avg-stars-num">{this.state.avgReview}</div>
                 </div>
               </div>
             </div>
-              <div id='jh-write-review'><a href='jh-write-review'></a></div>
+            <div id='jh-write-review'><a href='jh-write-review'></a></div>
             <ReviewsList
               currentProductReviews={this.state.displayedReviews}
             />
