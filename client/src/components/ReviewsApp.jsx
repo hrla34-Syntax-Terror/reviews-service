@@ -39,7 +39,7 @@ class ReviewsApp extends React.Component {
   clearFilter(e) {
     // TODO: filter out reviews with num stars from e.target
     var starFilters = this.state.starFilters.slice();
-    var {numFilters, isFiltered} = this.state;
+    var { numFilters, isFiltered } = this.state;
     var starIdx = e.target.getAttribute('stars');
     starFilters[starIdx] = 0;
     numFilters = numFilters - 1;
@@ -54,7 +54,15 @@ class ReviewsApp extends React.Component {
     } else {
       var displayEndIndex = 8
     }
-    this.setState({ starFilters, numFilters, isFiltered, displayedReviews, totalDisplayedReviews, displayEndIndex });
+
+    this.setState({
+      starFilters,
+      numFilters,
+      isFiltered,
+      displayedReviews,
+      totalDisplayedReviews,
+      displayEndIndex
+    });
   }
 
   clearAllFilters() {
@@ -64,26 +72,35 @@ class ReviewsApp extends React.Component {
     var displayedReviews = this.state.currentProductReviews;
     var totalDisplayedReviews = this.state.totalReviews;
     var displayEndIndex = 8;
-    this.setState({ starFilters, numFilters, isFiltered, displayedReviews, totalDisplayedReviews, displayEndIndex});
+
+    this.setState({
+      starFilters,
+      numFilters,
+      isFiltered,
+      displayedReviews,
+      totalDisplayedReviews,
+      displayEndIndex
+    });
   }
 
   filterByStars(e) {
     e.preventDefault();
     var starFilters = this.state.starFilters.slice();
-    var {numFilters} = this.state;
+    var { numFilters } = this.state;
     var starIdx = e.target.getAttribute('stars');
+
     if (this.state.scoreArr[starIdx]) {
       if (numFilters === 0) {
         var oldFilteredReviews = [];
       } else {
         var oldFilteredReviews = this.state.filteredReviews.slice();
       }
-      numFilters = numFilters +1;
+      numFilters = numFilters + 1;
       starFilters[starIdx] = 1;
       var isFiltered = true;
       var newFilteredReviews = this.state.currentProductReviews.filter(review => review.stars.toString() === starIdx);
       var filteredReviews = oldFilteredReviews.concat(newFilteredReviews);
-      if (filteredReviews.length < 8 ) {
+      if (filteredReviews.length < 8) {
         var displayEndIndex = filteredReviews.length;
       } else {
         var displayEndIndex = 8;
@@ -91,9 +108,18 @@ class ReviewsApp extends React.Component {
       var displayStartIndex = 0
       var displayedReviews = filteredReviews.slice(displayStartIndex, displayEndIndex);
       var totalDisplayedReviews = displayedReviews.length;
-      this.setState({ starFilters, isFiltered, numFilters, filteredReviews, displayedReviews, displayStartIndex, displayEndIndex, totalDisplayedReviews });
-    }
 
+      this.setState({
+        starFilters,
+        isFiltered,
+        numFilters,
+        filteredReviews,
+        displayedReviews,
+        displayStartIndex,
+        displayEndIndex,
+        totalDisplayedReviews
+      });
+    }
   }
 
   showWriteReview() {
@@ -121,17 +147,19 @@ class ReviewsApp extends React.Component {
         reviews: reviews.data
       }))
       .then(() => {
-        // randomize reviews
-        // var randomIndex = Math.floor(1 + Math.random() * this.state.reviews.length);
-        // var currentProductReviews = this.state.reviews[randomIndex].reviews;
-        // then set state currentProductReviews
+        // grab random product's reviews
+        var randomIndex = Math.floor(Math.random() * this.state.reviews.length);
+        var currentProductReviews = this.state.reviews[randomIndex].reviews;
+
         this.setState({
-          currentProductReviews: this.state.reviews[0].reviews,
+          currentProductReviews,
           reviewsLoaded: true
         });
+
       })
       .then(() => {
-        var totalDisplayedReviews, totalReviews = this.state.currentProductReviews.length;
+        var totalDisplayedReviews = this.state.currentProductReviews.length;
+        var totalReviews = this.state.currentProductReviews.length;
         var scoreArr = this.state.scoreArr.slice();
         var filteredReviews = this.state.currentProductReviews.slice();
         var displayedReviews = filteredReviews.slice(0, 8);
@@ -145,7 +173,16 @@ class ReviewsApp extends React.Component {
           return sum + review.stars
         }, 0)) / totalReviews) * 10) / 10;
         var avgReviewPercent = avgReview * 20;
-        this.setState({ totalReviews, avgReview, scoreArr, displayedReviews, avgReviewPercent, filteredReviews, displayEndIndex, totalDisplayedReviews });
+        this.setState({
+          totalReviews,
+          avgReview,
+          scoreArr,
+          displayedReviews,
+          avgReviewPercent,
+          filteredReviews,
+          displayEndIndex,
+          totalDisplayedReviews
+        });
       })
       .catch(err => console.error(err))
   }
@@ -164,23 +201,25 @@ class ReviewsApp extends React.Component {
               <div className="jh-histogram">
                 <div className="jh-rating-snapshot-label">Rating Snapshot</div>
                 <div className="jh-rating-snapshot-body-text">Select a row below to filter reviews</div>
-                <div className="jh-graphs-box">
-                  {this.state.scoreArr.map((total, index) => {
-                    if (index === 0) {
-                      return null
-                    } else {
-                      return (
-                        <div className="jh-bar-graph-box" key={index} stars={index} onClick={this.filterByStars}>
-                          <div className="jh-bar-graph-label" stars={index}>{index} ★ </div>
-                          <div className="jh-bar-graph-container" stars={index}>
-                            <div className="jh-bar-graph-empty" stars={index}></div>
-                            <div className="jh-bar-graph-fill" stars={index} style={{ width: 100 * (total / this.state.totalReviews) + '%' }}></div>
+                <div className="jh-graphs-container">
+                  <div className="jh-graphs-box">
+                    {this.state.scoreArr.map((total, index) => {
+                      if (index === 0) {
+                        return null
+                      } else {
+                        return (
+                          <div className="jh-bar-graph-box" key={index} stars={index} onClick={this.filterByStars}>
+                            <div className="jh-bar-graph-label" stars={index}>{index} ★ </div>
+                            <div className="jh-bar-graph-container" stars={index}>
+                              <div className="jh-bar-graph-empty" stars={index}></div>
+                              <div className="jh-bar-graph-fill" stars={index} style={{ width: 100 * (total / this.state.totalReviews) + '%' }}></div>
+                            </div>
+                            <div className="jh-bar-graph-num" stars={index}>{total}</div>
                           </div>
-                          <div className="jh-bar-graph-num" stars={index}>{total}</div>
-                        </div>
-                      )
-                    }
-                  })}
+                        )
+                      }
+                    })}
+                  </div>
                 </div>
               </div>
               <div className="jh-avg-box">
@@ -195,7 +234,8 @@ class ReviewsApp extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="jh-totalreviews-box">{this.state.displayStartIndex + 1}-{this.state.displayEndIndex} of {this.state.totalDisplayedReviews} Reviews</div>
+            
+            <div className="jh-totalreviews-box">1 - {this.state.displayEndIndex} of {this.state.totalDisplayedReviews} Reviews</div>
             {this.state.isFiltered ? (
               <div className="jh-star-filter-container">
                 <div className="jh-star-filter-label">Active Filters</div>
