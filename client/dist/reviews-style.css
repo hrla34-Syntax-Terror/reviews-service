@@ -50,14 +50,12 @@ table {
 /*                   begin module css                      */
 /* ******************************************************* */
 
-body {
+
+.jh-main-container {
   font-family: 'Graphik', 'Helvetica Neue', sans-serif;
   background-color: #fafafa;
   margin: 0 auto;
   color: #292929;
-}
-.jh-main-container {
-
   display: flex;
   flex-direction: column;
   padding: 0 30px;
