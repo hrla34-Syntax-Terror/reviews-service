@@ -65,6 +65,9 @@ body {
   max-width: 1080px;
   font-weight: 200;
 }
+.jh-write-review-box {
+  
+}
 
 .jh-reviews-header-label {
   font-family: Georgia, serif;
@@ -80,8 +83,16 @@ body {
 
 }
 
+.jh-totalreviews-box {
+  padding: 10px 0;
+}
+
 .jh-rating-snapshot {
   display: flex;
+}
+
+.jh-rating-snapshot-body-text {
+  padding: 0 0 20px 0;
 }
 
 .jh-histogram {
@@ -128,6 +139,7 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
 }
 
 .jh-bar-graph-label {
@@ -164,22 +176,69 @@ body {
 /*                Star Filter Section                     */
 /* ******************************************************* */
 
+.jh-star-filter-container {
+
+}
+
+.jh-star-filter-boxes {
+  display: flex;
+  padding: 10px 0;
+  margin: 0 0 10px 0;
+}
+
+.jh-clear-all-box {
+  display: flex;
+  box-sizing: border-box;
+  border: 1px solid #b8b8b8;
+  padding: 15px;
+  margin: 5px 5px 5px 0;
+}
+
 .jh-star-filter-box {
-  
+  display: flex;
+  box-sizing: border-box;
+  border: 1px solid #b8b8b8;
+  color: white;
+  background-color: #426c90;
+  padding: 15px;
+  margin: 5px 5px 5px 0;
+}
+
+.jh-star-filter-label {
+
 }
 
 
+
+.jh-star-filter-icon-img {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  align-items: center;
+  padding-top: 2px;
+}
+
+.jh-star-filter-icon {
+  fill: white;
+}
 
 
 /*                Review Entry Section                     */
 /* ******************************************************* */
 
 .jh-review-box {
+  border-top: 1px solid black;
+  padding: 10px 0 0 0;
 
 }
 
 .jh-name-box {
   font-weight: 530;
+  display: flex;
+}
+
+.jh-name-label {
+  padding: 0 0 0 10px;
 }
 
 .jh-stars-box {
@@ -206,8 +265,7 @@ body {
 
 .jh-review-text-box {
   padding-top: 0.9em;
-  padding-left: 9px;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
   padding-right: 5em;
   color: #292929;
   font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif!important;
@@ -217,6 +275,22 @@ body {
   text-decoration: none;
   text-transform: none;
   line-height: 26px;
+}
+
+.jh-review-stars-blank {
+  color: #b8b8b8;
+  display: block!important;
+  overflow: hidden!important;
+  position: absolute!important;
+  width: auto!important;
+}
+
+.jh-review-stars-fill {
+  color: #2b6692;
+  white-space: nowrap!important;
+  display: block!important;
+  overflow: hidden!important;
+  position: relative;
 }
 
 .jh-recommend-box {
