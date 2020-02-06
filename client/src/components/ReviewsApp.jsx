@@ -22,7 +22,8 @@ class ReviewsApp extends React.Component {
       scoreArr: [0, 0, 0, 0, 0, 0],
       starFilters: [0, 0, 0, 0, 0, 0],
       isFiltered: false,
-      numFilters: 0
+      numFilters: 0,
+      currentSelection: 'Most Relevant'
     };
 
     this.getAllReviews = this.getAllReviews.bind(this);
@@ -234,8 +235,20 @@ class ReviewsApp extends React.Component {
                 </div>
               </div>
             </div>
-            
-            <div className="jh-totalreviews-box">1 - {this.state.displayEndIndex} of {this.state.totalDisplayedReviews} Reviews</div>
+
+            <div className="jh-totals-sorting-box">
+              <div className="jh-totalreviews-box">1 - {this.state.displayEndIndex} of {this.state.totalDisplayedReviews} Reviews</div>
+              <div className="jh-sorting-box"><span className='jh-sortby'>Sort by:&nbsp;
+              <button className='jh-dropdown-btn'>{this.state.currentSelection}</button>&#9662;
+              <div className='jh-dropdown-selection'>
+                <div name='newestQ' onClick={(e) => this.clickSelection(e)}>Most Relevant</div>
+                <div name='newestAns' onClick={(e) => this.clickSelection(e)}>Most Helpful</div>
+                <div name='mostAns' onClick={(e) => this.clickSelection(e)}>Highest to Lowest Rating</div>
+                <div name='ansNeeded' onClick={(e) => this.clickSelection(e)}>Lowest to Highest Rating</div>
+                <div name='mostHelpful' onClick={(e) => this.clickSelection(e)}>Most Recent</div>
+              </div>
+            </span></div>
+            </div>
             {this.state.isFiltered ? (
               <div className="jh-star-filter-container">
                 <div className="jh-star-filter-label">Active Filters</div>
