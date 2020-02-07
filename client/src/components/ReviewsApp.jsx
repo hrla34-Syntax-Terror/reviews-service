@@ -298,7 +298,7 @@ class ReviewsApp extends React.Component {
                         <div className="jh-star-filter-box" key={index} stars={index} onClick={this.clearFilter}>
                           <div className="jh-star-filter-box-label" stars={index}>{index} stars </div>&nbsp;
                           <div className="jh-star-filter-icon-img" stars={index}>
-                            <img className="jh-star-filter-icon" stars={index} src="../icons/x-fill-white.svg" />
+                            <img className="jh-star-filter-icon" stars={index} src="http://localhost:6969/icons/x-fill-white.svg" />
                           </div>
                         </div>
                       )
@@ -307,7 +307,7 @@ class ReviewsApp extends React.Component {
                   <div className="jh-clear-all-box" onClick={this.clearAllFilters}>
                     <div className="jh-star-filter-box-label">Clear All</div>&nbsp;
                   <div className="jh-star-filter-icon-img">
-                      <img className="jh-star-filter-icon" src="../icons/x-fill.svg" />
+                      <img className="jh-star-filter-icon" src="http://localhost:6969/icons/x-fill.svg" />
                     </div>
                   </div>
                 </div>

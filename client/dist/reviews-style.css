@@ -283,6 +283,14 @@ table {
   margin: 5px 5px 5px 0;
 }
 
+.jh-star-filter-box:hover {
+  cursor: pointer;
+}
+
+.jh-clear-all-box:hover {
+  cursor: pointer;
+}
+
 .jh-star-filter-label {
 
 }
