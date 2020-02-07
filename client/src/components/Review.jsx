@@ -15,10 +15,15 @@ const Review = (props) => {
       <span className="jh-time-box">{moment(props.review.date).fromNow()}</span></div>
       <div className="jh-title-box">{props.review.title}</div>
       <div className="jh-review-text-box">{props.review.reviewText}</div>
-      <div className="jh-recommend-box">Recommend: {props.review.recommended.toString()}</div>
-      <div className="jh-helpful">
-        <div className="jh-helpful-yes-box">Helpful: {props.review.helpful.yes}</div>
-        <div className="jh-helpful-no-box">Nope: {props.review.helpful.no}</div>
+      <div className="jh-recommend-box">{props.review.recommended ? (
+        <div className="jh-recommend-result">✔ Yes, I recommend this product.</div>
+      ) : (
+        <div className="jh-recommend-result">✘ No, I don't recommend this product.</div>
+      )}</div>
+      <div className="jh-helpful">Helpful?&nbsp;
+        <button className="jh-helpful-button">Yes · {props.review.helpful.yes}</button>
+        <button className="jh-helpful-button">No · {props.review.helpful.no}</button>
+        <button className="jh-helpful-button">Report as Inappropriate</button>
       </div>
     </div>
   )

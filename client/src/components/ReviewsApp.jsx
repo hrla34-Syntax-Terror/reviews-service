@@ -27,14 +27,16 @@ class ReviewsApp extends React.Component {
     };
 
     this.getAllReviews = this.getAllReviews.bind(this);
+    this.getReview = this.getReview.bind(this);
     this.showMoreReviews = this.showMoreReviews.bind(this);
     this.filterByStars = this.filterByStars.bind(this);
     this.clearFilter = this.clearFilter.bind(this);
     this.clearAllFilters = this.clearAllFilters.bind(this);
+    this.renderProductData = this.renderProductData.bind(this);
   }
 
   componentDidMount() {
-    this.getAllReviews();
+    this.getReview(0);
   }
 
   clearFilter(e) {
@@ -141,7 +143,6 @@ class ReviewsApp extends React.Component {
     this.setState({ displayedReviews, displayEndIndex });
   }
 
-
   getAllReviews() {
     axios.get('http://localhost:6969/api')
       .then(reviews => this.setState({
@@ -156,7 +157,6 @@ class ReviewsApp extends React.Component {
           currentProductReviews,
           reviewsLoaded: true
         });
-
       })
       .then(() => {
         var totalDisplayedReviews = this.state.currentProductReviews.length;
@@ -186,6 +186,45 @@ class ReviewsApp extends React.Component {
         });
       })
       .catch(err => console.error(err))
+  }
+
+  getReview(productID) {
+    axios.get(`http://localhost:6969/api/${productID}`)
+      .then(reviews => {
+        this.setState({
+        currentProductReviews: reviews.data[0].reviews,
+        reviewsLoaded: true
+      })})
+      .then(() => { this.renderProductData() })
+      .catch(err => console.error(err))
+  }
+
+  renderProductData() {
+    var totalDisplayedReviews = this.state.currentProductReviews.length;
+    var totalReviews = this.state.currentProductReviews.length;
+    var scoreArr = this.state.scoreArr.slice();
+    var filteredReviews = this.state.currentProductReviews.slice();
+    var displayedReviews = filteredReviews.slice(0, 8);
+    if (totalReviews < 8) {
+      var displayEndIndex = totalReviews;
+    } else {
+      var displayEndIndex = 8
+    }
+    var avgReview = Math.round(((_.reduce(this.state.currentProductReviews, (sum, review) => {
+      scoreArr[review.stars]++;
+      return sum + review.stars
+    }, 0)) / totalReviews) * 10) / 10;
+    var avgReviewPercent = avgReview * 20;
+    this.setState({
+      totalReviews,
+      avgReview,
+      scoreArr,
+      displayedReviews,
+      avgReviewPercent,
+      filteredReviews,
+      displayEndIndex,
+      totalDisplayedReviews
+    });
   }
 
   render() {
@@ -237,17 +276,17 @@ class ReviewsApp extends React.Component {
             </div>
 
             <div className="jh-totals-sorting-box">
-              <div className="jh-totalreviews-box">1 - {this.state.displayEndIndex} of {this.state.totalDisplayedReviews} Reviews</div>
+              <div className="jh-totalreviews-box">1 - {this.state.displayEndIndex} of {this.state.totalReviews} Reviews</div>
               <div className="jh-sorting-box"><span className='jh-sortby'>Sort by:&nbsp;
               <button className='jh-dropdown-btn'>{this.state.currentSelection}</button>&#9662;
               <div className='jh-dropdown-selection'>
-                <div name='newestQ' onClick={(e) => this.clickSelection(e)}>Most Relevant</div>
-                <div name='newestAns' onClick={(e) => this.clickSelection(e)}>Most Helpful</div>
-                <div name='mostAns' onClick={(e) => this.clickSelection(e)}>Highest to Lowest Rating</div>
-                <div name='ansNeeded' onClick={(e) => this.clickSelection(e)}>Lowest to Highest Rating</div>
-                <div name='mostHelpful' onClick={(e) => this.clickSelection(e)}>Most Recent</div>
-              </div>
-            </span></div>
+                  <div name='newestQ' onClick={(e) => this.clickSelection(e)}>Most Relevant</div>
+                  <div name='newestAns' onClick={(e) => this.clickSelection(e)}>Most Helpful</div>
+                  <div name='mostAns' onClick={(e) => this.clickSelection(e)}>Highest to Lowest Rating</div>
+                  <div name='ansNeeded' onClick={(e) => this.clickSelection(e)}>Lowest to Highest Rating</div>
+                  <div name='mostHelpful' onClick={(e) => this.clickSelection(e)}>Most Recent</div>
+                </div>
+              </span></div>
             </div>
             {this.state.isFiltered ? (
               <div className="jh-star-filter-container">
@@ -287,7 +326,7 @@ class ReviewsApp extends React.Component {
               )}
           </div>
         ) : (
-            <div> no reviews yet</div>
+            <div>Loading...</div>
           )}
       </div>
     )
