@@ -143,7 +143,7 @@ class ReviewsApp extends React.Component {
 
 
   getAllReviews() {
-    axios.get('/api')
+    axios.get('http://localhost:6969/api')
       .then(reviews => this.setState({
         reviews: reviews.data
       }))
