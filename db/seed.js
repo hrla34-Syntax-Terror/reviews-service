@@ -1,9 +1,11 @@
 const faker = require('faker/index');
 const Reviews = require('./model');
 
+Reviews.remove({}, () => {console.log('old db clear, seeding new db...')})
+
 for (var i = 0; i < 100; i++) {
 
-  var numReviews = faker.random.number({ min: 2, max: 20 });
+  var numReviews = faker.random.number({ min: 15, max: 50 });
 
   var reviews = [];
 
