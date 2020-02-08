@@ -36,7 +36,9 @@ class ReviewsApp extends React.Component {
   }
 
   componentDidMount() {
-    this.getReview(0);
+    var id = window.location.href.slice(22);
+    if (id === '') { id = 0 }
+    this.getReview(id);
   }
 
   clearFilter(e) {
@@ -230,6 +232,7 @@ class ReviewsApp extends React.Component {
   render() {
 
     return (
+      <div className="jh-module-container">
       <div className="jh-main-container">
         <div className="jh-reviews-header-label">Reviews</div>
         <div className="jh-write-review-box">
@@ -328,6 +331,7 @@ class ReviewsApp extends React.Component {
         ) : (
             <div>Loading...</div>
           )}
+      </div>
       </div>
     )
   }

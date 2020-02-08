@@ -50,6 +50,10 @@ table {
 /*                   begin module css                      */
 /* ******************************************************* */
 
+.jh-module-container {
+  background-color: #fafafa;
+  width: 100%;
+}
 
 .jh-main-container {
   font-family: 'Graphik', 'Helvetica Neue', sans-serif;
