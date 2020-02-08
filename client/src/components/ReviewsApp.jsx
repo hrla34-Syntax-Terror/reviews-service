@@ -12,7 +12,6 @@ class ReviewsApp extends React.Component {
       currentProductReviews: [],
       filteredReviews: [],
       displayedReviews: [],
-      displayStartIndex: 0,
       displayEndIndex: 0,
       reviewsLoaded: false,
       totalReviews: 0,
@@ -32,7 +31,7 @@ class ReviewsApp extends React.Component {
     this.filterByStars = this.filterByStars.bind(this);
     this.clearFilter = this.clearFilter.bind(this);
     this.clearAllFilters = this.clearAllFilters.bind(this);
-    this.renderProductData = this.renderProductData.bind(this);
+    this.renderInitialProductData = this.renderInitialProductData.bind(this);
   }
 
   componentDidMount() {
@@ -42,7 +41,6 @@ class ReviewsApp extends React.Component {
   }
 
   clearFilter(e) {
-    // TODO: filter out reviews with num stars from e.target
     var starFilters = this.state.starFilters.slice();
     var { numFilters, isFiltered } = this.state;
     var starIdx = e.target.getAttribute('stars');
@@ -51,7 +49,7 @@ class ReviewsApp extends React.Component {
     var displayedReviews = this.state.displayedReviews.filter(review => review.stars.toString() != starIdx)
     if (numFilters === 0) {
       isFiltered = false;
-      displayedReviews = this.state.currentProductReviews;
+      displayedReviews = this.state.currentProductReviews.slice(0, 8);
     }
     var totalDisplayedReviews = displayedReviews.length;
     if (totalDisplayedReviews < 8) {
@@ -110,8 +108,7 @@ class ReviewsApp extends React.Component {
       } else {
         var displayEndIndex = 8;
       }
-      var displayStartIndex = 0
-      var displayedReviews = filteredReviews.slice(displayStartIndex, displayEndIndex);
+      var displayedReviews = filteredReviews.slice(0, displayEndIndex);
       var totalDisplayedReviews = displayedReviews.length;
 
       this.setState({
@@ -120,7 +117,6 @@ class ReviewsApp extends React.Component {
         numFilters,
         filteredReviews,
         displayedReviews,
-        displayStartIndex,
         displayEndIndex,
         totalDisplayedReviews
       });
@@ -151,7 +147,6 @@ class ReviewsApp extends React.Component {
         reviews: reviews.data
       }))
       .then(() => {
-        // grab random product's reviews
         var randomIndex = Math.floor(Math.random() * this.state.reviews.length);
         var currentProductReviews = this.state.reviews[randomIndex].reviews;
 
@@ -197,11 +192,11 @@ class ReviewsApp extends React.Component {
         currentProductReviews: reviews.data[0].reviews,
         reviewsLoaded: true
       })})
-      .then(() => { this.renderProductData() })
+      .then(() => { this.renderInitialProductData() })
       .catch(err => console.error(err))
   }
 
-  renderProductData() {
+  renderInitialProductData() {
     var totalDisplayedReviews = this.state.currentProductReviews.length;
     var totalReviews = this.state.currentProductReviews.length;
     var scoreArr = this.state.scoreArr.slice();
@@ -279,7 +274,7 @@ class ReviewsApp extends React.Component {
             </div>
 
             <div className="jh-totals-sorting-box">
-              <div className="jh-totalreviews-box">1 - {this.state.displayEndIndex} of {this.state.totalReviews} Reviews</div>
+              <div className="jh-totalreviews-box">1 - {this.state.displayEndIndex} of {this.state.filteredReviews.length} Reviews</div>
               <div className="jh-sorting-box"><span className='jh-sortby'>Sort by:&nbsp;
               <button className='jh-dropdown-btn'>{this.state.currentSelection}</button>&#9662;
               <div className='jh-dropdown-selection'>
