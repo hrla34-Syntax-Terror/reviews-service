@@ -61,9 +61,15 @@ class Review extends React.Component {
         <div className="jh-title-box">{this.props.review.title}</div>
         <div className="jh-review-text-box">{this.props.review.reviewText}</div>
         <div className="jh-recommend-box">{this.props.review.recommended ? (
-          <div className="jh-recommend-result">✔ Yes, I recommend this product.</div>
+          <div className="jh-recommend-result"><div className="jh-star-filter-icon-img">
+            <img className="jh-recommend-icon" src="http://localhost:6969/icons/check-fill.svg" />
+          </div>
+            <div className="jh-recommend-text-label">&nbsp; Yes, I recommend this product.</div>
+          </div>
         ) : (
-            <div className="jh-recommend-result">✘ No, I don't recommend this product.</div>
+            <div className="jh-recommend-result"><div className="jh-star-filter-icon-img">
+              <img className="jh-recommend-icon" src="http://localhost:6969/icons/x-fill.svg" />
+            </div>&nbsp; No, I don't recommend this product.</div>
           )}</div>
         <div className="jh-photos-container">
           {this.props.review.photos.map((url) => {

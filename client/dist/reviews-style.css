@@ -298,14 +298,16 @@ table {
 
 }
 
+.jh-star-filter-box-label {
 
+  align-items: center;
+}
 
 .jh-star-filter-icon-img {
+  align-content: center;
   display: inline-block;
   width: 15px;
   height: 15px;
-  align-items: center;
-  padding-top: 2px;
 }
 
 .jh-star-filter-icon {
@@ -323,15 +325,18 @@ table {
 
 .jh-name-box {
   display: flex;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  align-content: center;
 }
 
 .jh-name-label {
   padding: 0 0 0 10px;
   color: #292929!important;
-  font-size: 14px!important;
+  font-size: 16px!important;
   font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif!important;
   font-style: normal!important;
-  font-weight: 530;
+  font-weight: 700;
   font-variant: normal!important;
   text-decoration: none!important;
   text-transform: none!important;
@@ -401,7 +406,13 @@ table {
   
 }
 
+.jh-recommend-icon {
+  padding-top: 3px;
+}
+
 .jh-recommend-result {
+  align-content: center;
+  display: flex;
   color: #2a2a2a!important;
   font-size: 14px!important;
   line-height: 20px!important;
@@ -417,6 +428,7 @@ table {
   display: flex;
   width: 948px;
   flex-wrap: wrap;
+  margin-bottom: 50px;
 
 }
 
@@ -439,7 +451,10 @@ table {
 }
 
 .jh-helpful {
-  margin: 15px 0 15px 0;
+  margin: 20px 0;
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  
 }
 
 .jh-helpful-button-box {
