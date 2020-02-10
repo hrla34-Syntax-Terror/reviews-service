@@ -7,7 +7,7 @@ class Review extends React.Component {
 
     this.state = {
       stars: this.props.review.stars,
-      photos: [], /* this.props.review.photos */
+      photos: this.props.review.photos,
       yes: this.props.review.helpful.yes,
       no: this.props.review.helpful.no,
       report: 'Report as inappropriate',
@@ -18,6 +18,13 @@ class Review extends React.Component {
     }
     this.upVote = this.upVote.bind(this);
     this.reported = this.reported.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      yes: this.props.review.helpful.yes,
+      no: this.props.review.helpful.no
+    })
   }
 
   upVote(e) {
@@ -46,7 +53,7 @@ class Review extends React.Component {
         <div className="jh-name-box">
           <div className="jh-review-stars-box">
             <span className="jh-review-stars-blank">★★★★★</span>
-            <span className="jh-review-stars-fill" style={{ width: (this.state.stars * 20) + '%' }}>★★★★★</span>
+            <span className="jh-review-stars-fill" style={{ width: (this.props.review.stars * 20) + '%' }}>★★★★★</span>
           </div>
           <span className="jh-name-label">{this.props.review.username}</span>&nbsp;
       <span>·</span>&nbsp;
@@ -58,6 +65,19 @@ class Review extends React.Component {
         ) : (
             <div className="jh-recommend-result">✘ No, I don't recommend this product.</div>
           )}</div>
+        <div className="jh-photos-container">
+          {this.props.review.photos.map((url) => {
+            return (
+              <div className="jh-photo-wrapper" key={url}>
+                <div className="jh-photo-box">
+                  <img className="jh-review-photo" src={url}>
+                  </img>
+                </div>
+              </div>
+            )
+          })}
+
+        </div>
         <div className="jh-helpful">Helpful?&nbsp;
           <button
             onClick={(e) => this.upVote(e)}

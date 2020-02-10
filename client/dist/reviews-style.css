@@ -413,8 +413,33 @@ table {
   text-transform: none!important;
 }
 
+.jh-photos-container {
+  display: flex;
+  width: 948px;
+  flex-wrap: wrap;
+
+}
+
+.jh-photo-wrapper {
+  width: 33%;
+}
+
+.jh-photo-box {
+  
+ height: 230px;
+ width: 308px;
+ overflow: hidden;
+ padding: 6px;
+}
+
+.jh-review-photo {
+  width: 100%;
+  object-fit: cover;
+  border: 1px solid #b8b8b8;
+}
+
 .jh-helpful {
-  margin: 0 0 15px 0;
+  margin: 15px 0 15px 0;
 }
 
 .jh-helpful-button-box {

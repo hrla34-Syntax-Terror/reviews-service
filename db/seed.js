@@ -9,6 +9,15 @@ Reviews.remove({})
       var numReviews = faker.random.number({ min: 15, max: 50 });
     
       var reviews = [];
+
+      var photos = [
+        '../rei-photos/1.jpg', 
+        '../rei-photos/2.jpg', 
+        '../rei-photos/3.jpg', 
+        '../rei-photos/4.jpg', 
+        '../rei-photos/5.jpg', 
+        '../rei-photos/6.jpg' 
+      ]
     
       for (var j = 0; j < numReviews; j++) {
         var review = {
@@ -18,6 +27,7 @@ Reviews.remove({})
           date: faker.date.past(1),
           reviewText: faker.hacker.phrase() + ' ' + faker.lorem.sentences(faker.random.number({ min: 2, max: 6 })),
           recommended: faker.random.boolean(),
+          photos,
           helpful: {
             yes: faker.random.number({ min: 0, max: 20 }),
             no: faker.random.number({ min: 0, max: 20 })
