@@ -7,6 +7,7 @@ class Review extends React.Component {
 
     this.state = {
       stars: this.props.review.stars,
+      photos: [], /* this.props.review.photos */
       yes: this.props.review.helpful.yes,
       no: this.props.review.helpful.no,
       report: 'Report as inappropriate',
@@ -58,9 +59,23 @@ class Review extends React.Component {
             <div className="jh-recommend-result">✘ No, I don't recommend this product.</div>
           )}</div>
         <div className="jh-helpful">Helpful?&nbsp;
-          <button onClick={(e) => this.upVote(e)} name='yes' className={this.state.helpfulClass} >Yes · <span style={{ color: this.state.colorG }}>{this.state.yes}</span></button>
-          <button onClick={(e) => this.upVote(e)} name='no' className={this.state.helpfulClass} >No · <span style={{ color: this.state.colorR }}>{this.state.no}</span></button>
-          <button onClick={() => this.reported()} className={this.state.reportClass} >{this.state.report}</button>
+          <button
+            onClick={(e) => this.upVote(e)}
+            name='yes'
+            className={this.state.helpfulClass} >Yes ·&nbsp;
+          <span style={{ color: this.state.colorG }}>{this.state.yes}</span>
+          </button>
+
+          <button
+            onClick={(e) => this.upVote(e)}
+            name='no'
+            className={this.state.helpfulClass} >No ·&nbsp;
+          <span style={{ color: this.state.colorR }}>{this.state.no}</span>
+          </button>
+
+          <button
+            onClick={() => this.reported()}
+            className={this.state.reportClass} >{this.state.report}</button>
         </div>
       </div>
     )

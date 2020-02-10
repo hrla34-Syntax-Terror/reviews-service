@@ -75,8 +75,8 @@ class ReviewsApp extends React.Component {
   showMoreReviews() {
     var { displayEndIndex } = this.state;
 
-    if (displayEndIndex + 30 > filteredReviews.length) {
-      displayEndIndex = filteredReviews.length;
+    if (displayEndIndex + 30 > this.state.filteredReviews.length) {
+      displayEndIndex = this.state.filteredReviews.length;
     } else {
       displayEndIndex += 30;
     }
