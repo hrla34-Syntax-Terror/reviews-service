@@ -10,6 +10,7 @@ var reviewsSchema = new mongoose.Schema({
     date: Date,
     reviewText: String,
     recommended: Boolean,
+    photos: [String],
     helpful: {
       yes: Number,
       no: Number

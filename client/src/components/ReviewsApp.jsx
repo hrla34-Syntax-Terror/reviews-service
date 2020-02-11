@@ -88,12 +88,17 @@ class ReviewsApp extends React.Component {
     var { numFilters, starFilters } = this.state;
     var starIdx = Number(e.target.getAttribute('stars'));
 
-    if (!starFilters[starIdx]) {
+
       if (this.state.scoreArr[starIdx]) {
+        if (!starFilters[starIdx]) {
         numFilters = numFilters + 1;
         starFilters[starIdx] = 1;
         var isFiltered = true;
-        var filteredReviews = this.state.currentProductReviews.filter(review => starFilters[review.stars]);
+        var filteredReviews = this.state.currentProductReviews.filter(review => {
+          console.log(review);
+          console.log('starfilters: ', starFilters[review.stars])
+          return starFilters[review.stars];
+        });
 
         if (filteredReviews.length < 8) {
           var displayEndIndex = filteredReviews.length;
@@ -251,7 +256,6 @@ class ReviewsApp extends React.Component {
                   </div>
                 </div>
               </div>
-
               <div className="jh-totals-sorting-box">
                 <div className="jh-totalreviews-box">1 - {this.state.displayEndIndex} of {this.state.filteredReviews.length} Reviews</div>
                 <div className="jh-sorting-box"><span className='jh-sortby'>Sort by:&nbsp;
