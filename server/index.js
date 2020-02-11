@@ -17,6 +17,8 @@ app.use(morgan('dev'));
 
 app.use(express.static(path.join(__dirname, '../client/dist')));
 app.use('/', router);
+app.use('/:id', express.static(path.join(__dirname, '../client/dist')));
+
 
 
 app.listen(port, console.log('server up on ', port));

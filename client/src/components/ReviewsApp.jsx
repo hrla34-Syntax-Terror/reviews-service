@@ -13,7 +13,6 @@ class ReviewsApp extends React.Component {
       displayedReviews: [],
       displayEndIndex: 0,
       reviewsLoaded: false,
-      totalFilteredReviews: 0,
       avgReview: 0,
       avgReviewPercent: 0,
       scoreArr: [0, 0, 0, 0, 0, 0],
@@ -42,22 +41,20 @@ class ReviewsApp extends React.Component {
       .then(reviews => {
         var currentProductReviews = reviews.data[0].reviews;
         var filteredReviews = reviews.data[0].reviews;
-        var totalFilteredReviews = filteredReviews.length;
-        var scoreArr = this.state.scoreArr.slice();
+        var scoreArr = [0, 0, 0, 0, 0, 0];
         var avgReview = Math.round(((_.reduce(currentProductReviews, (sum, review) => {
           scoreArr[review.stars]++;
           return sum + review.stars
         }, 0)) / currentProductReviews.length) * 10) / 10;
         var avgReviewPercent = avgReview * 20;
 
-        if (totalFilteredReviews < 8) {
-          var displayEndIndex = totalFilteredReviews;
+        if (filteredReviews.length < 8) {
+          var displayEndIndex = filteredReviews.length;
         } else {
           var displayEndIndex = 8
         }
 
         this.setState({
-          totalFilteredReviews,
           displayEndIndex,
           currentProductReviews,
           filteredReviews,
@@ -76,49 +73,40 @@ class ReviewsApp extends React.Component {
   }
 
   showMoreReviews() {
-    var {totalFilteredReviews, displayEndIndex} = this.state;
+    var { displayEndIndex } = this.state;
 
-    if (displayEndIndex + 30 > totalFilteredReviews) {
-      displayEndIndex = totalFilteredReviews;
+    if (displayEndIndex + 30 > this.state.filteredReviews.length) {
+      displayEndIndex = this.state.filteredReviews.length;
     } else {
       displayEndIndex += 30;
     }
 
-    this.setState({displayEndIndex}, () => this.displayFilteredReviews())
+    this.setState({ displayEndIndex }, () => this.displayFilteredReviews())
   }
 
   filterByStars(e) {
-    e.preventDefault();
-    var starFilters = this.state.starFilters.slice();
-    var { numFilters } = this.state;
-    var starIdx = e.target.getAttribute('stars');
+    var { numFilters, starFilters } = this.state;
+    var starIdx = Number(e.target.getAttribute('stars'));
 
     if (!starFilters[starIdx]) {
       if (this.state.scoreArr[starIdx]) {
-        if (numFilters === 0) {
-          var oldFilteredReviews = [];
-        } else {
-          var oldFilteredReviews = this.state.filteredReviews.slice();
-        }
         numFilters = numFilters + 1;
         starFilters[starIdx] = 1;
         var isFiltered = true;
-        var newFilteredReviews = this.state.currentProductReviews.filter(review => review.stars.toString() === starIdx);
-        var filteredReviews = oldFilteredReviews.concat(newFilteredReviews);
+        var filteredReviews = this.state.currentProductReviews.filter(review => starFilters[review.stars]);
+
         if (filteredReviews.length < 8) {
           var displayEndIndex = filteredReviews.length;
         } else {
           var displayEndIndex = 8;
         }
-        var totalFilteredReviews = filteredReviews.length;
         
         this.setState({
           starFilters,
           isFiltered,
           numFilters,
           filteredReviews,
-          displayEndIndex,
-          totalFilteredReviews
+          displayEndIndex
         }, () => { this.displayFilteredReviews() });
       }
     }
@@ -126,19 +114,19 @@ class ReviewsApp extends React.Component {
 
 
   clearFilter(e) {
-    var starFilters = this.state.starFilters.slice();
-    var { numFilters, isFiltered } = this.state;
-    var starIdx = e.target.getAttribute('stars');
+    var { numFilters, isFiltered, starFilters } = this.state;
+    var starIdx = Number(e.target.getAttribute('stars'));
     starFilters[starIdx] = 0;
     numFilters = numFilters - 1;
-    var filteredReviews = this.state.filteredReviews.filter(review => review.stars.toString() != starIdx)
+    var filteredReviews = this.state.filteredReviews.filter(review => review.stars != starIdx)
+    
     if (numFilters === 0) {
       isFiltered = false;
-      filteredReviews = this.state.currentProductReviews.slice();
+      filteredReviews = this.state.currentProductReviews;
     }
-    var totalFilteredReviews = filteredReviews.length;
-    if (totalFilteredReviews < 8) {
-      var displayEndIndex = totalFilteredReviews;
+    
+    if (filteredReviews.length < 8) {
+      var displayEndIndex = filteredReviews.length;
     } else {
       var displayEndIndex = 8
     }
@@ -148,7 +136,6 @@ class ReviewsApp extends React.Component {
       filteredReviews,
       numFilters,
       isFiltered,
-      totalFilteredReviews,
       displayEndIndex
     }, () => { this.displayFilteredReviews() });
   }
@@ -157,10 +144,9 @@ class ReviewsApp extends React.Component {
     var starFilters = [0, 0, 0, 0, 0, 0];
     var isFiltered = false;
     var numFilters = 0;
-    var filteredReviews = this.state.currentProductReviews;
-    var totalFilteredReviews = this.state.currentProductReviews.length;
-    if (totalFilteredReviews < 8) {
-      var displayEndIndex = totalFilteredReviews;
+    var filteredReviews = this.state.currentProductReviews.slice();
+    if (filteredReviews.length < 8) {
+      var displayEndIndex = filteredReviews.length;
     } else {
       var displayEndIndex = 8
     }
@@ -170,7 +156,6 @@ class ReviewsApp extends React.Component {
       numFilters,
       isFiltered,
       filteredReviews,
-      totalFilteredReviews,
       displayEndIndex
     }, () => { this.displayFilteredReviews() });
   }
@@ -178,6 +163,45 @@ class ReviewsApp extends React.Component {
   showWriteReview() {
     /* TODO WHOOPS */
   }
+
+  clickSelection(e) {
+    var filteredReviews = this.state.filteredReviews.slice();
+    var selected = e.target.getAttribute('name');
+
+    
+    if (selected === 'mostRel') {
+      filteredReviews = this.state.currentProductReviews;
+
+    } else if (selected === 'mostHelp') {
+      filteredReviews.sort((a, b) => b.helpful.yes - a.helpful.yes);
+    
+    } else if (selected === 'lowRating') {
+      filteredReviews.sort((a, b) => a.stars - b.stars);
+    
+    } else if (selected === 'highRating') {
+      filteredReviews.sort((a, b) => b.stars - a.stars);
+    
+    } else if (selected === 'mostRecent') {
+      filteredReviews.sort((a, b) => {
+        if (a.date > b.date) {
+          return -1
+        }
+        if (b.date > a.date) {
+          return 1
+        }
+        return 0
+      });
+    }
+
+
+    
+    this.setState({ 
+      currentSelection: e.target.textContent, 
+      filteredReviews
+    }, () => this.displayFilteredReviews());
+  }
+
+
 
   render() {
 
@@ -229,15 +253,15 @@ class ReviewsApp extends React.Component {
               </div>
 
               <div className="jh-totals-sorting-box">
-                <div className="jh-totalreviews-box">1 - {this.state.displayEndIndex} of {this.state.totalFilteredReviews} Reviews</div>
+                <div className="jh-totalreviews-box">1 - {this.state.displayEndIndex} of {this.state.filteredReviews.length} Reviews</div>
                 <div className="jh-sorting-box"><span className='jh-sortby'>Sort by:&nbsp;
               <button className='jh-dropdown-btn'>{this.state.currentSelection}</button>&#9662;
               <div className='jh-dropdown-selection'>
-                    <div name='newestQ' onClick={(e) => this.clickSelection(e)}>Most Relevant</div>
-                    <div name='newestAns' onClick={(e) => this.clickSelection(e)}>Most Helpful</div>
-                    <div name='mostAns' onClick={(e) => this.clickSelection(e)}>Highest to Lowest Rating</div>
-                    <div name='ansNeeded' onClick={(e) => this.clickSelection(e)}>Lowest to Highest Rating</div>
-                    <div name='mostHelpful' onClick={(e) => this.clickSelection(e)}>Most Recent</div>
+                    <div name='mostRel' onClick={(e) => this.clickSelection(e)}>Most Relevant</div>
+                    <div name='mostHelp' onClick={(e) => this.clickSelection(e)}>Most Helpful</div>
+                    <div name='highRating' onClick={(e) => this.clickSelection(e)}>Highest to Lowest Rating</div>
+                    <div name='lowRating' onClick={(e) => this.clickSelection(e)}>Lowest to Highest Rating</div>
+                    <div name='mostRecent' onClick={(e) => this.clickSelection(e)}>Most Recent</div>
                   </div>
                 </span></div>
               </div>
@@ -272,7 +296,7 @@ class ReviewsApp extends React.Component {
               <ReviewsList
                 currentProductReviews={this.state.displayedReviews}
               />
-              {this.state.totalFilteredReviews === this.state.displayEndIndex ? (
+              {this.state.filteredReviews.length === this.state.displayEndIndex ? (
                 <div></div>
               ) : (
                   <div className="jh-show-more-box"><button className="jh-show-more-button" onClick={this.showMoreReviews}>Load More</button></div>

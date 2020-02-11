@@ -1,7 +1,8 @@
 const faker = require('faker/index');
 const Reviews = require('./model');
 
-Reviews.remove({}, () => {console.log('old db clear, seeding new db...')})
+Reviews.remove({})
+  .then(() => {console.log('old db clear, seeding new db...')})
   .then(() => {
     for (var i = 0; i < 100; i++) {
 
